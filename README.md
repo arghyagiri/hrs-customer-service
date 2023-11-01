@@ -1,7 +1,6 @@
 # Hotel Reservation System - Customer Service
 
-[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=arghyagiri_notification-service)](https://sonarcloud.io/summary/new_code?id=arghyagiri_notification-service)
-
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=arghyagiri_hrs-customer-service)](https://sonarcloud.io/summary/new_code?id=arghyagiri_hrs-customer-service)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 [Spring Boot](http://projects.spring.io/spring-boot/) based app.
