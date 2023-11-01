@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Great Comfort Hotel</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+    body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
+
+
+    </style>
+</head>
+<body class="w3-light-grey">
+<!-- Navigation Bar -->
+<div class="w3-bar w3-white w3-large">
+    <a href="#" class="w3-bar-item w3-button w3-red w3-mobile"><i class="fa fa-bed w3-margin-right"></i>Great Comfort
+        Hotel</a>
+    <a href="#rooms" class="w3-bar-item w3-button w3-mobile">Book</a>
+</div>
+<!-- Header -->
+<header class="w3-display-container w3-content" style="max-width:1500px;">
+    <img class="w3-image" alt="The Hotel" style="min-width:1000px" th:src="@{/images/hotel.jpg}">
+    <div class="w3-display-topleft w3-margin w3-padding w3-col 12 m8">
+        <div class="w3-container w3-green">
+            <h2><i class="fa fa-bed w3-margin-right"></i>Registration</h2>
+        </div>
+        <div class="w3-container w3-white w3-padding-16">
+            <div th:if="${param.success}">
+                <div class="w3-panel w3-green">
+                    You have successfully registered!
+                </div>
+            </div>
+            <form method="post" role="form" th:action="@{/signup/save}" th:object="${user}">
+
+            <div class="w3-row-padding">
+                <div class="w3-half w3-margin-bottom">
+                    <label><i class="fa fa-address-card-o"></i> First Name</label>
+                    <input class="w3-input w3-border" id="firstName" name="firstName" placeholder="Enter first name" th:field="*{firstName}" type="text" required/>
+                    <p th:errors="*{firstName}" class="w3-panel w3-yellow" th:if="${#fields.hasErrors('firstName')}"></p>
+                </div>
+                <div class="w3-half">
+                    <label><i class="fa fa-address-card-o"></i> Last Name</label>
+                    <input class="w3-input w3-border" id="lastName" name="lastName" placeholder="Enter last name" th:field="*{lastName}" type="text"/>
+                    <p th:errors="*{lastName}" class="w3-panel w3-yellow" th:if="${#fields.hasErrors('lastName')}"></p>
+                </div>
+            </div>
+            <div class="w3-row-padding">
+                <div class="w3-half w3-margin-bottom">
+                    <label><i class="fa fa-envelope"></i> Email Address</label>
+                    <input class="w3-input w3-border" id="email" name="email" placeholder="Enter email address" th:field="*{emailAddress}" type="email" required/>
+                    <p th:errors="*{emailAddress}" class="w3-panel w3-yellow" th:if="${#fields.hasErrors('emailAddress')}"></p>
+                </div>
+                <div class="w3-half">
+                    <label><i class="fa fa-phone"></i> Contact Number</label>
+                    <input class="w3-input w3-border" id="contactNumber" name="contactNumber" placeholder="Enter contact number" th:field="*{contactNumber}" type="text"/>
+                    <p th:errors="*{contactNumber}" class="w3-panel w3-yellow" th:if="${#fields.hasErrors('contactNumber')}"></p>
+                </div>
+            </div>
+
+            <div class="w3-row-padding">
+                <div class="w3-half w3-margin-bottom">
+                    <label><i class="fa fa-home"></i> Address Line 1</label>
+                    <input class="w3-input w3-border" id="address1" name="address1" placeholder="Enter address line 1" th:field="*{address1}" type="text"/>
+                    <p th:errors="*{address1}" class="w3-panel w3-yellow" th:if="${#fields.hasErrors('address1')}"></p>
+                </div>
+                <div class="w3-half">
+                    <label><i class="fa fa-home"></i> Address Line 2</label>
+                    <input class="w3-input w3-border" id="address2" name="address2" placeholder="Enter address line 2" th:field="*{address2}" type="text"/>
+                    <p th:errors="*{address2}" class="w3-panel w3-yellow" th:if="${#fields.hasErrors('address2')}"></p>
+                </div>
+            </div>
+
+            <div class="w3-row-padding">
+                <div class="w3-half w3-margin-bottom">
+                    <label><i class="fa fa-key"></i> Password</label>
+                    <input class="w3-input w3-border" id="password" name="password" placeholder="Enter password" th:field="*{password}" type="password" required/>
+                    <p th:errors="*{password}" class="w3-panel w3-yellow" th:if="${#fields.hasErrors('password')}"></p>
+                </div>
+                <div class="w3-half">
+                    <label><i class="fa fa-key"></i> Confirm Password</label>
+                    <input class="w3-input w3-border" id="confirmPassword" name="confirmPassword" placeholder="Enter same password again" th:field="*{confirmPassword}" type="password" required/>
+                    <p th:errors="*{confirmPassword}" class="w3-panel w3-yellow" th:if="${#fields.hasErrors('confirmPassword')}"></p>
+                </div>
+            </div>
+
+
+            <button class="w3-button w3-dark-grey w3-col" type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+</header>
+
+
+<!-- Footer -->
+<footer class="w3-padding-32 w3-black w3-center w3-margin-top">
+    <h5>Find Us On</h5>
+    <div class="w3-xlarge w3-padding-16">
+        <i class="fa fa-facebook-official w3-hover-opacity"></i>
+        <i class="fa fa-instagram w3-hover-opacity"></i>
+        <i class="fa fa-snapchat w3-hover-opacity"></i>
+        <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+        <i class="fa fa-twitter w3-hover-opacity"></i>
+        <i class="fa fa-linkedin w3-hover-opacity"></i>
+    </div>
+</footer>
+
+</body>
+</html>
