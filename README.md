@@ -5,6 +5,17 @@
 
 [Spring Boot](http://projects.spring.io/spring-boot/) based app.
 
+### Business Workflows:
+
+* 1. Customer Registration
+* 2. Update Profile
+* 3. View Hotel Listings
+#### Design Patterns & Annotations: 
+* Use API Gateway to route requests to Customer Service.
+
+#### Interactions: 
+* Will interact with Hotel Management Service for viewing listings.
+
 ## Requirements
 
 For building and running the application you need:
