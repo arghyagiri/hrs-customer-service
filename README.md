@@ -1,6 +1,6 @@
 # Hotel Reservation System - Customer Service
 
-[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=arghyagiri_hrs-customer-service)](https://sonarcloud.io/summary/new_code?id=arghyagiri_hrs-customer-service)
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=arghyagiri_hrs-hotelRoom-service)](https://sonarcloud.io/summary/new_code?id=arghyagiri_hrs-hotelRoom-service)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 [Spring Boot](http://projects.spring.io/spring-boot/) based app.
@@ -15,7 +15,7 @@ For building and running the application you need:
 ## Running the application locally
 
 There are several ways to run a Spring Boot application on your local machine. One way is to execute the `main` method
-in the `com.tcs.training.customer.CustomerApplication` class from your IDE.
+in the `com.tcs.training.hotelRoom.CustomerApplication` class from your IDE.
 
 Alternatively you can use
 the [Spring Boot Maven plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html)
@@ -60,7 +60,7 @@ http://localhost:8084/swagger-ui/index.html
 ### 6. Notification Service consumes and process this event
 ![img.png](readme/img6.png)
 
-### 7. Notification Service send e-mail to customer registered email address
+### 7. Notification Service send e-mail to hotelRoom registered email address
 
 ![img.png](readme/img5.png)
 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Great Comfort Hotel</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+    body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
+
+
+    </style>
+</head>
+<body class="w3-light-grey">
+<!-- Navigation Bar -->
+<div class="w3-bar w3-white w3-large">
+    <a th:href="@{/customers/home}" class="w3-bar-item w3-button w3-red w3-mobile"><i class="fa fa-bed w3-margin-right"></i>Great Comfort
+        Hotel</a>
+    <a th:href="@{/customers/signup}"  class="w3-bar-item w3-button w3-mobile">Sign Up</a>
+    <a th:href="@{/customers/rooms}"  class="w3-bar-item w3-button w3-mobile">Rooms</a>
+</div>
+<!-- Header -->
+<header class="w3-display-container w3-content" style="max-width:1500px;">
+    <div th:if="${fragmentName} == null">
+    <img class="w3-image" alt="The Hotel" style="min-width:1000px" th:src="@{/images/hotelRoom.jpg}">
+    </div>
+    <div th:if="${fragmentName} != null">
+    <div th:replace="fragments/__${fragmentName}__.html"></div>
+    </div>
+</header>
+
+
+<!-- Footer -->
+<div th:replace="fragments/footer.html"></div>
+
+</body>
+</html>

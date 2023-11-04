@@ -1,6 +1,8 @@
 package com.tcs.training.customer.service;
 
 import com.tcs.training.customer.entity.Customer;
+import com.tcs.training.customer.feign.client.HotelClient;
+import com.tcs.training.customer.feign.model.HotelListings;
 import com.tcs.training.customer.repository.CustomerRepository;
 import com.tcs.training.model.notification.NotificationContext;
 import jakarta.transaction.Transactional;
@@ -29,6 +31,8 @@ public class CustomerService {
 
 	private final Serde<NotificationContext> jsonSerde;
 
+	private final HotelClient hotelClient;
+
 	@Value("${spring.cloud.stream.kafka.streams.binder.brokers}")
 	private String bootstrapServer;
 
@@ -45,10 +49,15 @@ public class CustomerService {
 		return customerRepository.findByEmailAddress(emailAddress);
 	};
 
+	public List<HotelListings> getListings() {
+		return hotelClient.getHotelListings();
+	}
+
 	public void notifyCustomerForSignUp(Customer customer) {
 		NotificationContext nc = new NotificationContext();
-		nc.setBody(
-				"Registration successful. You can now login to portal by using below link - http://localhost:8084/login");
+		nc.setBody("Thank you!\n" + "\n"
+				+ "Thanks for signing up. Welcome to our community. We are happy to have you on board.\n" + "\n"
+				+ "Why don’t you follow us on [social media] as well?\n" + "\n" + "-Great Comfort Hotels");
 		nc.setType("email");
 		nc.setSeverity("Low");
 		nc.setCreatedAt(new Date());
