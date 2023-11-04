@@ -13,4 +13,6 @@ public class AmenityDetails {
 
 	private String name;
 
+	private String icon;
+
 }

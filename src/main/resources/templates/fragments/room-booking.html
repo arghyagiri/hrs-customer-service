@@ -1,0 +1,89 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="w3-content" style="max-width:1532px;">
+
+    <img class="w3-image" alt="The Hotel" style="min-width:1000px" th:src="@{/images/hotel.jpg}">
+    <div class="w3-display-topleft w3-margin w3-padding w3-col 12 m8">
+        <div class="w3-container w3-green">
+            <h2><i class="fa fa-room w3-margin-right"></i>Complete your booking</h2>
+        </div>
+        <div class="w3-container w3-white w3-padding-16">
+            <div th:if="${param.failed}">
+                <div class="w3-panel w3-red">
+                    Login Failed! Please try again.
+                </div>
+            </div>
+    <form method="post" role="form" th:action="@{/customers/booking/payment}" th:object="${booking}">
+        <div class="w3-row-padding">
+        <div class="w3-col w3-margin-bottom">
+            <h4><i class="fa fa-bed"></i> Room No :
+            <span th:text="${booking.roomId}"/>
+                <input hidden="hidden" id="roomId" value="${booking.roomId}" th:field="*{roomId}" >
+            </h4>
+        </div>
+        </div>
+        <div class="w3-row-padding">
+            <div class="w3-half w3-margin-bottom">
+                <label><i class="fa fa-address-card-o"></i> Room Type</label>
+                <input class="w3-input w3-border" id="roomType" name="roomType" th:field="*{roomType}" type="text" disabled/>
+            </div>
+            <div class="w3-half">
+                <label><i class="fa fa-address-card-o"></i> Rent per night</label>
+                <input class="w3-input w3-border" id="rent" name="rent" th:field="*{rent}" type="text" disabled/>
+            </div>
+        </div>
+        <div class="w3-row-padding">
+            <div class="w3-half w3-margin-bottom">
+                <label><i class="fa fa-calendar"></i> Check In Date</label>
+                <input class="w3-input w3-border" id="startDate" name="startDate" th:field="*{startDate}" type="date" onchange="cal()" required/>
+            </div>
+            <div class="w3-half">
+                <label><i class="fa fa-calendar"></i> Check Out Date</label>
+                <input class="w3-input w3-border" id="endDate" name="endDate" th:field="*{endDate}" type="date" onchange="cal()" required/>
+            </div>
+        </div>
+        <div class="w3-margin w3-card-4" style="width:50%;">
+            <header class="w3-container w3-blue">
+                <h6>Total Price : $<span id="totalPrice" th:text="0"></span></h6>
+            </header>
+        </div>
+        <hr/>
+        <div class="w3-row-padding">
+            <h4><i class="fa fa-book w3-margin-right"></i>Log In to book</h4>
+            <hr/>
+            <div class="w3-half w3-margin-bottom">
+                <label><i class="fa fa-envelope"></i> Registered Email Address</label>
+                <input class="w3-input w3-border" id="email" name="email" placeholder="Enter email address" th:field="*{emailAddress}" type="email" required/>
+                <p th:errors="*{emailAddress}" class="w3-panel w3-yellow" th:if="${#fields.hasErrors('emailAddress')}"></p>
+            </div>
+            <div class="w3-half w3-margin-bottom">
+                <label><i class="fa fa-key"></i> Password</label>
+                <input class="w3-input w3-border" id="password" name="password" placeholder="Enter password" th:field="*{password}" type="password" required/>
+                <p th:errors="*{password}" class="w3-panel w3-yellow" th:if="${#fields.hasErrors('password')}"></p>
+            </div>
+        </div>
+        <button class="w3-button w3-dark-grey w3-col" type="submit">Login</button>
+        <div class="w3-row-padding">
+        <a href="/customers/signup">Sign Up</a>
+        </div>
+    </form>
+
+    </div>
+    </div>
+    <script>
+        let d = new Date();
+        d.setDate(d.getDate() + 1);
+        startDate.min = new Date().toISOString().split("T")[0];
+        endDate.min = d.toISOString().split("T")[0];
+        function GetDays(){
+                var startDate = document.getElementById("startDate").valueAsDate;
+                var endDate = document.getElementById("endDate").valueAsDate;
+                return parseInt((endDate - startDate) / (24 * 3600 * 1000));
+        }
+
+        function cal(){
+                var days = GetDays();
+                var price = document.getElementById('rent').value;
+                document.getElementById('totalPrice').innerHTML=Math.max(0, days*parseInt(price)) || 0;
+        }
+    </script>
+</div>

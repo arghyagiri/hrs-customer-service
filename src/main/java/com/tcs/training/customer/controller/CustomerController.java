@@ -1,7 +1,7 @@
 package com.tcs.training.customer.controller;
 
 import com.tcs.training.customer.entity.Customer;
-import com.tcs.training.customer.feign.model.HotelListings;
+import com.tcs.training.customer.model.BookingDTO;
 import com.tcs.training.customer.model.CustomerDTO;
 import com.tcs.training.customer.service.CustomerService;
 import jakarta.validation.Valid;
@@ -11,10 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -61,6 +58,35 @@ public class CustomerController {
 	public String getRoomListings(Model model) {
 		model.addAttribute("listings", customerService.getListings());
 		model.addAttribute("fragmentName", "rooms");
+		return "index";
+	}
+
+	@GetMapping("/rooms/book/{id}")
+	public String getBookingPage(Model model, @PathVariable("id") Long roomId) {
+		model.addAttribute("booking", customerService.getHotelById(BookingDTO.builder().roomId(roomId).build()));
+		model.addAttribute("fragmentName", "room-booking");
+		return "index";
+	}
+
+	@PostMapping("/booking/payment")
+	public String processSignUp(@Valid @ModelAttribute("booking") BookingDTO bookingDTO, BindingResult result,
+			Model model) {
+		model.addAttribute("booking", bookingDTO);
+		if (customerService.isValidCredentials(bookingDTO)) {
+			model.addAttribute("fragmentName", "payment");
+		}
+		else {
+			return "redirect:/customers/rooms/book/" + bookingDTO.getRoomId() + "?failed";
+		}
+		return "index";
+	}
+
+	@PostMapping("/booking/reserve")
+	public String reserveHotelRoom(@Valid @ModelAttribute("booking") BookingDTO bookingDTO, BindingResult result,
+			Model model) {
+		customerService.makeReservation(bookingDTO);
+		model.addAttribute("booking", bookingDTO);
+		model.addAttribute("fragmentName", "room-booking-status");
 		return "index";
 	}
 

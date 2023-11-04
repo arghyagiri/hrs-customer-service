@@ -1,0 +1,55 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="w3-content" style="max-width:1532px;">
+
+    <img class="w3-image" alt="The Hotel" style="min-width:1000px" th:src="@{/images/hotel.jpg}">
+    <div class="w3-display-topleft w3-margin w3-padding w3-col 12 m8">
+        <div class="w3-container w3-green">
+            <h2><i class="fa fa-room w3-margin-right"></i>Payment Details</h2>
+        </div>
+        <div class="w3-container w3-white w3-padding-16">
+
+    <form method="post" role="form" th:action="@{/customers/booking/reserve}" th:object="${booking}">
+        <div class="w3-row-padding">
+            <div class="w3-half w3-margin-bottom">
+                <label><i class="fa fa-address-card-o"></i> Card Number</label>
+                <input class="w3-input w3-border" id="cardNumber" name="cardNumber" th:field="*{cardNumber}" type="number" />
+            </div>
+            <div class="w3-third">
+                <label><i class="fa fa-address-card-o"></i> Expiry Date</label>
+                <input class="w3-input w3-border" id="expiryDate" name="expiryDate" th:field="*{expiryDate}" type="month"/>
+            </div>
+            <div class="w3-rest">
+                <label><i class="fa fa-address-card-o"></i> CVV</label>
+                <input class="w3-input w3-border" id="cvv" name="cvv" th:field="*{cvv}" type="password"/>
+            </div>
+
+            <input hidden="hidden" id="roomId" value="${booking.roomId}" th:field="*{roomId}" >
+            <input hidden="hidden" id="roomType" name="roomType" th:field="*{roomType}"/>
+            <input hidden="hidden" id="rent" name="rent" th:field="*{rent}"/>
+            <input hidden="hidden" id="startDate" name="startDate" th:field="*{startDate}"/>
+            <input hidden="hidden" id="endDate" name="endDate" th:field="*{endDate}"/>
+            <input hidden="hidden" id="email" name="email" placeholder="Enter email address" th:field="*{emailAddress}"/>
+        </div>
+        <button class="w3-button w3-dark-grey w3-col" type="submit">Reserve</button>
+    </form>
+
+    </div>
+    </div>
+    <script>
+        let d = new Date();
+        d.setDate(d.getDate() + 1);
+        startDate.min = new Date().toISOString().split("T")[0];
+        endDate.min = d.toISOString().split("T")[0];
+        function GetDays(){
+                var startDate = document.getElementById("startDate").valueAsDate;
+                var endDate = document.getElementById("endDate").valueAsDate;
+                return parseInt((endDate - startDate) / (24 * 3600 * 1000));
+        }
+
+        function cal(){
+                var days = GetDays();
+                var price = document.getElementById('rent').value;
+                document.getElementById('totalPrice').innerHTML=Math.max(0, days*parseInt(price)) || 0;
+        }
+    </script>
+</div>

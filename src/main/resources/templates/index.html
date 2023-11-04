@@ -24,7 +24,7 @@
 <!-- Header -->
 <header class="w3-display-container w3-content" style="max-width:1500px;">
     <div th:if="${fragmentName} == null">
-    <img class="w3-image" alt="The Hotel" style="min-width:1000px" th:src="@{/images/hotelRoom.jpg}">
+    <img class="w3-image" alt="The Hotel" style="min-width:1000px" th:src="@{/images/hotel.jpg}">
     </div>
     <div th:if="${fragmentName} != null">
     <div th:replace="fragments/__${fragmentName}__.html"></div>

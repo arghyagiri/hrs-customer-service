@@ -48,4 +48,9 @@ public class CustomerRestController {
 		return existingCustomer;
 	}
 
+	@GetMapping("/get-customer/{id}")
+	public Customer getRegisteredCustomerById(@PathVariable("id") Long customerId) {
+		return customerService.getRegisteredCustomerById(customerId);
+	}
+
 }

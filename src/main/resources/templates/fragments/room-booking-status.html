@@ -1,0 +1,19 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="w3-content" style="max-width:1532px;">
+
+    <img class="w3-image" alt="The Hotel" style="min-width:1000px" th:src="@{/images/hotel.jpg}">
+    <div class="w3-display-topleft w3-margin w3-padding w3-col 12 m8">
+        <div class="w3-container w3-green">
+            <h2><i class="fa fa-room w3-margin-right"></i>Booking Status</h2>
+        </div>
+        <div class="w3-container w3-white w3-padding-16">
+        <div class="w3-row-padding">
+        <div class="w3-col w3-green w3-margin-bottom">
+            <h4><i class="fa fa-bed"></i> Your booking for room no
+            <span th:text="${booking.roomId}"/> is confirmed. You'll receive your invoice shortly on your registered email address.
+            </h4>
+        </div>
+        </div>
+        </div>
+    </div>
+</div>

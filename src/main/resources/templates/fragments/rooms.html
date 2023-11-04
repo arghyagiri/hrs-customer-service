@@ -6,41 +6,25 @@
         <p>Make yourself at home is our slogan. We offer the best beds in the industry. Sleep well and rest well.</p>
     </div>
 
-    <div class="w3-row-padding">
-        <div class="w3-col m3">
-            <label><i class="fa fa-calendar-o"></i> Check In</label>
-            <input class="w3-input w3-border" type="date" placeholder="DD MM YYYY">
-        </div>
-        <div class="w3-col m3">
-            <label><i class="fa fa-calendar-o"></i> Check Out</label>
-            <input class="w3-input w3-border" type="date" placeholder="DD MM YYYY">
-        </div>
-        <div class="w3-col m2">
-            <label><i class="fa fa-male"></i> Adults</label>
-            <input class="w3-input w3-border" type="number" placeholder="1">
-        </div>
-        <div class="w3-col m2">
-            <label><i class="fa fa-child"></i> Kids</label>
-            <input class="w3-input w3-border" type="number" placeholder="0">
-        </div>
-        <div class="w3-col m2">
-            <label><i class="fa fa-search"></i> Search</label>
-            <button class="w3-button w3-block w3-black">Search</button>
-        </div>
-    </div>
-
     <div class="w3-row-padding w3-padding-16">
         <div class="w3-container w3-quarter w3-margin w3-white" th:each="listing: ${listings}">
+            <form method="get" role="form" th:action="@{/customers/rooms/book/} + ${listing.roomId}">
             <input hidden="hidden" th:value="${listing.roomId}" />
             <h3 th:text="${listing.roomType}"/>
+            <h6 class="w3-opacity" th:text="'Room No : ' + ${listing.roomId}"/>
             <h6 class="w3-opacity" th:text="'From $' + ${listing.rent}"/>
             <p class="w3-large">
-            <div th:each="amenity : ${listing.amenities}">
-                <p th:text="${amenity.amenity.name}"/>
-                <p th:text="${amenity.noOfAmenity}"/>
-            </div>
+
+            <p class="w3-large">
+            <span th:each="amenity : ${listing.amenities}">
+                <i th:class="'fa ' + ${amenity.amenity.icon}"></i>
+                <span th:text="${amenity.noOfAmenity}"/>
+            </span>
+            </p>
+
             </p>
             <button class="w3-button w3-block w3-black w3-margin-bottom">Choose Room</button>
+            </form>
         </div>
     </div>
     </div>

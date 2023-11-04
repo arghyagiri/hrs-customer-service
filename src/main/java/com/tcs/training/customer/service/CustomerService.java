@@ -3,9 +3,12 @@ package com.tcs.training.customer.service;
 import com.tcs.training.customer.entity.Customer;
 import com.tcs.training.customer.feign.client.HotelClient;
 import com.tcs.training.customer.feign.model.HotelListings;
+import com.tcs.training.customer.model.BookingDTO;
 import com.tcs.training.customer.repository.CustomerRepository;
+import com.tcs.training.customer.util.Constants;
 import com.tcs.training.model.notification.NotificationContext;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -15,10 +18,10 @@ import org.apache.kafka.common.serialization.UUIDSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.time.LocalDate;
 import java.util.*;
 import java.util.function.BiFunction;
 
@@ -50,7 +53,9 @@ public class CustomerService {
 	};
 
 	public List<HotelListings> getListings() {
-		return hotelClient.getHotelListings();
+		List<HotelListings> hotelListings = hotelClient.getHotelListings();
+		hotelListings.forEach(v -> v.setRoomType(Constants.HOTEL_TYPE_MAP.get(v.getRoomType())));
+		return hotelListings;
 	}
 
 	public void notifyCustomerForSignUp(Customer customer) {
@@ -79,5 +84,27 @@ public class CustomerService {
 							ProducerConfig.BATCH_SIZE_CONFIG, 16384, ProducerConfig.LINGER_MS_CONFIG, 1,
 							ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432, ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
 							UUIDSerializer.class, ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, orderSerde.getClass()));
+
+	public Customer getRegisteredCustomerById(Long customerId) {
+		return customerRepository.getReferenceById(customerId);
+	}
+
+	public BookingDTO getHotelById(BookingDTO booking) {
+		HotelListings hotelListings = hotelClient.getHotelById(booking.getRoomId());
+		booking.setRent(hotelListings.getRent());
+		booking.setRoomType(Constants.HOTEL_TYPE_MAP.get(hotelListings.getRoomType()));
+		return booking;
+	}
+
+	public boolean isValidCredentials(BookingDTO bookingDTO) {
+		Customer customer = customerRepository.findByEmailAddress(bookingDTO.getEmailAddress());
+		if (customer != null) {
+			return BCrypt.checkpw(bookingDTO.getPassword(), customer.getPassword());
+		}
+		return false;
+	}
+
+	public void makeReservation(@Valid BookingDTO bookingDTO) {
+	}
 
 }
