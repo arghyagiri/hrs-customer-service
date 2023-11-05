@@ -76,6 +76,34 @@ http://localhost:8084/swagger-ui/index.html
 ![img.png](readme/img5.png)
 
 
+
+## Reservation Flow
+
+### 1. Create Amenities in Hotel Management Service
+![img.png](readme/img0.png)
+
+### 2. Create Room Listing in Hotel Management Service
+![img_1.png](readme/img1_.png)
+
+### 3. View listing of rooms[from Hotel Management Service]
+![img_2.png](readme/img2_.png)
+
+### 4. Select room and select reservation dates
+![img_3.png](readme/img3_.png)
+
+### 5. Provide payment details
+![img_4.png](readme/img4_.png)
+
+### 6. If payment failed, room reservation is not completed and room is still shown as available
+![img_5.png](readme/img5_.png)
+![img_6.png](readme/img6_.png)
+
+### 7. If payment is successful, room is booked and notification is sent
+![img_7.png](readme/img7.png)
+![img_8.png](readme/img8.png)
+
+
+
 ## Copyright
 
 Released under the Apache License 2.0. See
