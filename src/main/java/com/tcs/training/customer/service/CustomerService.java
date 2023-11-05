@@ -2,7 +2,10 @@ package com.tcs.training.customer.service;
 
 import com.tcs.training.customer.entity.Customer;
 import com.tcs.training.customer.feign.client.HotelClient;
+import com.tcs.training.customer.feign.client.ReservationClient;
 import com.tcs.training.customer.feign.model.HotelListings;
+import com.tcs.training.customer.feign.model.PaymentDetails;
+import com.tcs.training.customer.feign.model.Reservation;
 import com.tcs.training.customer.model.BookingDTO;
 import com.tcs.training.customer.repository.CustomerRepository;
 import com.tcs.training.customer.util.Constants;
@@ -35,6 +38,8 @@ public class CustomerService {
 	private final Serde<NotificationContext> jsonSerde;
 
 	private final HotelClient hotelClient;
+
+	private final ReservationClient reservationClient;
 
 	@Value("${spring.cloud.stream.kafka.streams.binder.brokers}")
 	private String bootstrapServer;
@@ -104,7 +109,20 @@ public class CustomerService {
 		return false;
 	}
 
-	public void makeReservation(@Valid BookingDTO bookingDTO) {
+	public Reservation makeReservation(@Valid BookingDTO bookingDTO) {
+		Customer customer = customerRepository.findByEmailAddress(bookingDTO.getEmailAddress());
+		Reservation reservation = Reservation.builder()
+			.roomId(bookingDTO.getRoomId())
+			.startDate(bookingDTO.getStartDate())
+			.endDate(bookingDTO.getEndDate())
+			.paymentDetails(PaymentDetails.builder()
+				.cardNumber(bookingDTO.getCardNumber())
+				.expiryDate(bookingDTO.getExpiryDate())
+				.cvv(bookingDTO.getCvv())
+				.build())
+			.customerId(customer.getCustomerId())
+			.build();
+		return reservationClient.makeReservation(reservation);
 	}
 
 }

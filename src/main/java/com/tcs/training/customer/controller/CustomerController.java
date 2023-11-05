@@ -1,6 +1,7 @@
 package com.tcs.training.customer.controller;
 
 import com.tcs.training.customer.entity.Customer;
+import com.tcs.training.customer.feign.model.Reservation;
 import com.tcs.training.customer.model.BookingDTO;
 import com.tcs.training.customer.model.CustomerDTO;
 import com.tcs.training.customer.service.CustomerService;
@@ -84,7 +85,8 @@ public class CustomerController {
 	@PostMapping("/booking/reserve")
 	public String reserveHotelRoom(@Valid @ModelAttribute("booking") BookingDTO bookingDTO, BindingResult result,
 			Model model) {
-		customerService.makeReservation(bookingDTO);
+		Reservation reservation = customerService.makeReservation(bookingDTO);
+		bookingDTO.setReservationId(reservation.getReservationId());
 		model.addAttribute("booking", bookingDTO);
 		model.addAttribute("fragmentName", "room-booking-status");
 		return "index";

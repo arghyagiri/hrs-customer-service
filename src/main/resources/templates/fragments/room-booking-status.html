@@ -10,7 +10,9 @@
         <div class="w3-row-padding">
         <div class="w3-col w3-green w3-margin-bottom">
             <h4><i class="fa fa-bed"></i> Your booking for room no
-            <span th:text="${booking.roomId}"/> is confirmed. You'll receive your invoice shortly on your registered email address.
+            <span th:text="${booking.roomId}"/> is confirmed.
+                Reservation Ref <span th:text="${booking.reservationId}"/>.
+                You'll receive your invoice shortly on your registered email address.
             </h4>
         </div>
         </div>

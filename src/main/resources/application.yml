@@ -92,6 +92,8 @@ feign:
         loggerLevel: basic
   hotelClient:
     name: hotel-management-service
+  reservationClient:
+    name: reservation-service
 
 eureka:
   client:

@@ -40,4 +40,6 @@ public class BookingDTO {
 
 	private Long cvv;
 
+	private String reservationId;
+
 }
