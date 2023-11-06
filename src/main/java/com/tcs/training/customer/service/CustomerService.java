@@ -7,8 +7,10 @@ import com.tcs.training.customer.feign.model.HotelListings;
 import com.tcs.training.customer.feign.model.PaymentDetails;
 import com.tcs.training.customer.feign.model.Reservation;
 import com.tcs.training.customer.model.BookingDTO;
+import com.tcs.training.customer.model.CustomerDTO;
 import com.tcs.training.customer.repository.CustomerRepository;
 import com.tcs.training.customer.util.Constants;
+import com.tcs.training.model.exception.NoDataFoundException;
 import com.tcs.training.model.notification.NotificationContext;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -23,6 +25,8 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.*;
@@ -61,6 +65,19 @@ public class CustomerService {
 		List<HotelListings> hotelListings = hotelClient.getHotelListings();
 		hotelListings.forEach(v -> v.setRoomType(Constants.HOTEL_TYPE_MAP.get(v.getRoomType())));
 		return hotelListings;
+	}
+
+	public List<Reservation> getMyBooking(CustomerDTO customerDTO) {
+		Customer customer = customerRepository.findByEmailAddress(customerDTO.getEmailAddress());
+		if (customer == null) {
+			throw new NoDataFoundException("User not found");
+		}
+		else {
+			if (!BCrypt.checkpw(customerDTO.getPassword(), customer.getPassword())) {
+				throw new NoDataFoundException("User name or password invalid");
+			}
+		}
+		return reservationClient.getReservationForCustomer(customer.getCustomerId());
 	}
 
 	public void notifyCustomerForSignUp(Customer customer) {
@@ -123,6 +140,14 @@ public class CustomerService {
 			.customerId(customer.getCustomerId())
 			.build();
 		return reservationClient.makeReservation(reservation);
+	}
+
+	public String cancelReservation(UUID reservationId) {
+		return reservationClient.cancelReservation(reservationId);
+	}
+
+	public Reservation getReservationById(UUID reservationId) {
+		return reservationClient.getReservationById(reservationId);
 	}
 
 }

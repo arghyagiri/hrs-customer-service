@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <img class="w3-image" alt="The Hotel" style="min-width:1000px" th:src="@{/images/hotel.jpg}">
+    <div class="w3-display-topleft w3-margin w3-padding w3-col 12 m8">
+        <div class="w3-container w3-green">
+            <h2><i class="fa fa-bed w3-margin-right"></i>Login</h2>
+        </div>
+        <div class="w3-container w3-white w3-padding-16">
+            <form method="post" role="form" th:action="@{/customers/my-booking}" th:object="${user}">
+
+
+            <div class="w3-row-padding">
+                <div class="w3-half w3-margin-bottom">
+                    <label><i class="fa fa-envelope"></i> Email Address</label>
+                    <input class="w3-input w3-border" id="email" name="email" placeholder="Enter email address" th:field="*{emailAddress}" type="email" required/>
+                    <p th:errors="*{emailAddress}" class="w3-panel w3-yellow" th:if="${#fields.hasErrors('emailAddress')}"></p>
+                </div>
+
+                <div class="w3-half w3-margin-bottom">
+                    <label><i class="fa fa-key"></i> Password</label>
+                    <input class="w3-input w3-border" id="password" name="password" placeholder="Enter password" th:field="*{password}" type="password" required/>
+                    <p th:errors="*{password}" class="w3-panel w3-yellow" th:if="${#fields.hasErrors('password')}"></p>
+                </div>
+            </div>
+
+
+            <button class="w3-button w3-dark-grey w3-col" type="submit">Login to view Bookings</button>
+            </form>
+        </div>
+    </div>
+
+
+</html>

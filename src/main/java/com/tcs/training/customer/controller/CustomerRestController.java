@@ -4,8 +4,12 @@ import com.tcs.training.customer.entity.Customer;
 import com.tcs.training.customer.model.CustomerDTO;
 import com.tcs.training.customer.service.CustomerService;
 import com.tcs.training.model.exception.NoDataFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,6 +55,16 @@ public class CustomerRestController {
 	@GetMapping("/get-customer/{id}")
 	public Customer getRegisteredCustomerById(@PathVariable("id") Long customerId) {
 		return customerService.getRegisteredCustomerById(customerId);
+	}
+
+	@PostMapping("/signup")
+	public Customer signUp(@RequestBody CustomerDTO user) {
+		Customer newCustomer = new Customer();
+		BeanUtils.copyProperties(user, newCustomer);
+		newCustomer.setPassword(new BCryptPasswordEncoder().encode(newCustomer.getPassword()));
+		newCustomer = customerService.add(newCustomer);
+		customerService.notifyCustomerForSignUp(newCustomer);
+		return newCustomer;
 	}
 
 }

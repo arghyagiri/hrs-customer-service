@@ -1,0 +1,16 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="w3-content" style="max-width:1532px;">
+
+    <div class="w3-row-padding w3-padding-16">
+        <div class="w3-container w3-quarter w3-margin w3-white" th:each="listing: ${reservations}">
+            <form method="post" role="form" th:action="@{/customers/rooms/cancel/} + ${listing.reservationId}">
+            <input hidden="hidden" th:value="${listing.customerId}" />
+            <h3 th:text="${listing.reservationId}"/>
+            <h6 class="w3-opacity" th:text="'Room No : ' + ${listing.roomId}"/>
+            <h6 class="w3-opacity" th:text="'From : ' + ${listing.startDate} + ' To : ' + ${listing.endDate}"/>
+
+            <button class="w3-button w3-block w3-black w3-margin-bottom">Cancel Reservation</button>
+            </form>
+        </div>
+    </div>
+    </div>

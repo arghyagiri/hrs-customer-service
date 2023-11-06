@@ -14,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("customers")
@@ -62,6 +64,21 @@ public class CustomerController {
 		return "index";
 	}
 
+	@GetMapping("/login")
+	public String login(Model model) {
+		CustomerDTO user = new CustomerDTO();
+		model.addAttribute("user", user);
+		model.addAttribute("fragmentName", "login");
+		return "index";
+	}
+
+	@PostMapping("/my-booking")
+	public String myBookings(@Valid @ModelAttribute("user") CustomerDTO user, BindingResult result, Model model) {
+		model.addAttribute("reservations", customerService.getMyBooking(user));
+		model.addAttribute("fragmentName", "my-rooms");
+		return "index";
+	}
+
 	@GetMapping("/rooms/book/{id}")
 	public String getBookingPage(Model model, @PathVariable("id") Long roomId) {
 		model.addAttribute("booking", customerService.getHotelById(BookingDTO.builder().roomId(roomId).build()));
@@ -89,6 +106,16 @@ public class CustomerController {
 		bookingDTO.setReservationId(reservation.getReservationId());
 		model.addAttribute("booking", bookingDTO);
 		model.addAttribute("fragmentName", "room-booking-status");
+		return "index";
+	}
+
+	@PostMapping("/rooms/cancel/{id}")
+	public String cancelBooking(@PathVariable("id") UUID reservationId, Model model) {
+		Reservation reservation = customerService.getReservationById(reservationId);
+		String cancelReservation = customerService.cancelReservation(reservationId);
+		model.addAttribute("booking", reservation);
+		model.addAttribute("reservationMsg", cancelReservation);
+		model.addAttribute("fragmentName", "room-cancel-status");
 		return "index";
 	}
 

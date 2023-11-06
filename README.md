@@ -103,6 +103,21 @@ http://localhost:8084/swagger-ui/index.html
 ![img_8.png](readme/img8.png)
 
 
+## Reservation Cancellation Flow
+
+### 1. User login to check bookings
+![img.png](img.png)
+
+### 2. Booking list is shown
+![img_1.png](img_1.png)
+
+### 3. Cancel reservation
+![img_2.png](img_2.png)
+
+### 4. Cancellation notification sent
+
+
+
 
 ## Copyright
 
